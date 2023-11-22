@@ -1,9 +1,10 @@
 .slider{
     max-width: 700px;
-    width: 600px;
+    width: auto;
     position: relative;
     margin: 50px auto;
     user-select: none;
+    text-align: center;
 }
 .slider-info {
     color: white;
@@ -18,17 +19,15 @@
     border-radius: 50%;
     border: 1px solid white;
     cursor: pointer;
+    position: absolute;
+    top: 50%;
 
 }
 .slider-prevBtn{
-    position: absolute;
-    top: 50%;
     left: 0;
     transform: translate(-50%, -50%);
 }
 .slider-nextBtn{
-    position: absolute;
-    top: 50%;
     right: 0;
     transform: translate(50%, -50%);
 }
@@ -70,3 +69,12 @@
     object-fit: cover;
     object-position: center;
 }
+
+@media screen and (max-width : 764px ){
+    .slider-btn {
+        position: relative;
+        transform: translate(0, 0);
+        margin: 12px;
+    }
+}
+    

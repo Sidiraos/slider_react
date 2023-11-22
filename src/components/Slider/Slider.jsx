@@ -14,30 +14,29 @@ const Slider = () => {
 	const [index, setIndex] = useState(0);
 	const imgArr = [img1, img2, img3, img4, img5];
     const imgContainerRef = useRef();
-
-	const handlePrev = () => {
+    const handleSlider = (next)=>{
         if(imgContainerRef.current.classList.contains('active')) return
-		if (index === 0) {
-			setIndex(sliderData.length - 1);
-		} else {
-			setIndex(index - 1);
-		}
+
+        if(next){
+            if (index === sliderData.length - 1) {
+                setIndex(0);
+            } else {
+                setIndex(index + 1);
+            }
+        }
+        else{
+            if (index === 0) {
+                setIndex(sliderData.length - 1);
+            } else {
+                setIndex(index - 1);
+            }
+        }
         imgContainerRef.current.classList.add('active')
         setTimeout(()=>{
             imgContainerRef.current.classList.remove('active')
         } , 500)
-	};
-	const handleNext = () => {
-		if (index === sliderData.length - 1) {
-			setIndex(0);
-		} else {
-			setIndex(index + 1);
-		}
-        imgContainerRef.current.classList.add('active')
-        setTimeout(()=>{
-            imgContainerRef.current.classList.remove('active')
-        } , 500)
-	};
+    }
+    
 	return (
 		<div className="slider">
 			<p className="slider-info">
@@ -49,10 +48,10 @@ const Slider = () => {
 					{sliderData[index].description}
 				</p>
 			</div>
-			<button onClick={handlePrev} className="slider-prevBtn slider-btn">
+			<button onClick={()=>handleSlider(false)} className="slider-prevBtn slider-btn">
 				<img src={leftArrow} alt="previous button" />
 			</button>
-			<button onClick={handleNext} className="slider-nextBtn slider-btn">
+			<button onClick={()=> handleSlider(true)} className="slider-nextBtn slider-btn">
 				<img src={rightArrow} alt="next button" />
 			</button>
 		</div>
