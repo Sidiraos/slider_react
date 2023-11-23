@@ -8,35 +8,44 @@ import sliderData from '../../data/sliderData';
 import leftArrow from '../../assets/left-arrow.svg';
 import rightArrow from '../../assets/right-arrow.svg';
 
-import { useState , useRef  } from 'react';
+import { useState , useRef , useEffect  } from 'react';
 
 const Slider = () => {
 	const [index, setIndex] = useState(0);
 	const imgArr = [img1, img2, img3, img4, img5];
     const imgContainerRef = useRef();
+
+    useEffect(()=>{
+      const intervalID = setInterval(() => handleSlider(true) , 2000)
+
+      return ()=> clearInterval(intervalID)
+    } , [])
     const handleSlider = (next)=>{
         if(imgContainerRef.current.classList.contains('active')) return
 
-        if(next){
-            if (index === sliderData.length - 1) {
-                setIndex(0);
-            } else {
-                setIndex(index + 1);
+        setIndex((prevState)=>{
+            if(next){
+                if (prevState === sliderData.length - 1) {
+                    return 0
+                } else {
+                    return prevState + 1
+                }
             }
-        }
-        else{
-            if (index === 0) {
-                setIndex(sliderData.length - 1);
-            } else {
-                setIndex(index - 1);
+            else{
+                if (prevState === 0) {
+                   return  sliderData.length -1;
+                } else {
+                   return prevState -1
+                }
             }
-        }
+        })
+
         imgContainerRef.current.classList.add('active')
         setTimeout(()=>{
             imgContainerRef.current.classList.remove('active')
         } , 500)
     }
-    
+
 	return (
 		<div className="slider">
 			<p className="slider-info">
@@ -49,10 +58,10 @@ const Slider = () => {
 				</p>
 			</div>
 			<button onClick={()=>handleSlider(false)} className="slider-prevBtn slider-btn">
-				<img src={leftArrow} alt="previous button" />
+				<img src={leftArrow} alt="previous image" />
 			</button>
 			<button onClick={()=> handleSlider(true)} className="slider-nextBtn slider-btn">
-				<img src={rightArrow} alt="next button" />
+				<img src={rightArrow} alt="next image" />
 			</button>
 		</div>
 	);
